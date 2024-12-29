@@ -78,7 +78,7 @@ const Home = () => {
   useEffect(() => {
     const countdownTo2025 = () => {
       const now = new Date();
-      const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 51, 0, 0);
+      const targetDate = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0, 0);
       const timeLeft = targetDate - now;
   
       console.log("Current Time (now):", now);
