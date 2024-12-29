@@ -1,114 +1,144 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import React, { useEffect, useState } from "react";
+import MessageCarousel from "../components/MessageCarousel"; // Import du composant MessageCarousel
+import CelebrationAnimation from "@/components/ConfettiAnimation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const Home = () => {
+  const [showFireworks, setShowFireworks] = useState(false);
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  // Liste des messages
+  function generateMessages() {
+    const templates = [
+      "Merci pour une année incroyable ! 🎉",
+      "Que {year} soit remplie de bonheur et de succès ! ✨",
+      "Ensemble, nous avons accompli tant de choses ! 🙏",
+      "Un immense merci à tous pour votre soutien cette année ! 💖",
+      "Nouvelle année, nouvelles opportunités. Bonne année ! 🎆",
+      "{pastYear} a été mémorable, merci à vous tous ! 🥂",
+      "Que {year} soit encore plus lumineuse ! 🌟",
+      "Merci pour chaque moment partagé cette année ! ❤️",
+      "Vos sourires et votre soutien rendent tout possible. Bonne année ! 🎊",
+      "À une nouvelle année remplie de rêves et de réalisations ! 🌈",
+      "Que cette nouvelle année soit pleine d'aventures et de succès ! 🚀",
+      "Chers amis, merci pour votre soutien constant. Que {year} soit magique ! ✨",
+      "Célébrons ensemble un nouveau chapitre rempli de promesses ! 📖",
+      "Merci d'être là chaque jour. Que {year} soit rempli de joie et de prospérité ! 🎊",
+      "L'année {pastYear} a été un voyage incroyable, et c'est grâce à vous ! 🌟",
+      "Chaque moment passé ensemble cette année a été un cadeau. Bonne année ! 🎁",
+      "Une année se termine, une autre commence, et je vous souhaite le meilleur ! 🌸",
+      "Je vous souhaite une année {year} pleine de moments heureux et inoubliables ! 🌅",
+      "À de nouvelles réussites et des moments heureux en 2025 ! 🥳",
+      "Que {year} soit une année de grande santé, d'amour et de prospérité ! 💖",
+      "Merci pour votre amitié et votre soutien. Que {year} vous apporte ce que vous désirez ! 💫",
+      "Que vos rêves deviennent réalité cette année. Bonne année ! 🌠",
+      "Ensemble, faisons de {year} une année inoubliable ! 🏆",
+      "Merci pour tout ce que nous avons partagé cette année. En route pour de nouvelles aventures ! 🌍",
+      "Bonne année à vous et à vos proches. Que la joie et la paix vous accompagnent ! 🕊️",
+      "Merci d'avoir été une source de lumière dans ma vie en {pastYear}. Que {year} soit encore plus lumineux ! 🌟",
+      "Que chaque jour de {year} vous apporte une nouvelle raison de sourire ! 😊",
+      "À une année pleine de nouvelles opportunités et de rêves réalisés ! 🌈",
+      "Les meilleures choses arrivent à ceux qui savent attendre. Bonne année et à bientôt ! 🕰️",
+      "Que {year} soit l'année où vos rêves prennent vie ! ✨",
+      "Que cette année vous apporte la réussite, la paix et des moments mémorables ! 💖",
+      "Un grand merci pour tout ce que vous faites. Que {year} soit aussi géniale que vous ! 🌟",
+      "À une année pleine de rencontres et de succès professionnels ! 💼",
+      "Merci de faire partie de ma vie et de rendre chaque moment spécial. Bonne année ! 💖",
+      "Que {year} soit rempli de nouveaux commencements et de belles surprises ! 🎉",
+      "Je vous souhaite une année riche en bonheur et en découvertes ! 🌍",
+      "Que cette nouvelle année soit plus douce et plus joyeuse que jamais ! 🌸",
+      "À une année d'amour, de rires et de grands projets ! 💬",
+      "Chaque nouvelle année est une nouvelle chance. Faisons de {year} une année extraordinaire ! 💫",
+      "Merci pour votre soutien sans faille. Que {year} soit encore plus radieuse ! 🌟",
+    ];
+    
 
-export default function Home() {
+    const messages = [];
+    const year = new Date().getFullYear();
+    const pastYear = year;
+
+    for (let i = 0; i < 1000; i++) {
+      const template = templates[Math.floor(Math.random() * templates.length)];
+      const message = template
+        .replace("{year}", year + 1)
+        .replace("{pastYear}", pastYear);
+      messages.push(message);
+    }
+
+    return messages;
+  }
+
+  const messages = generateMessages();
+
+  // Diviser le tableau de messages en deux
+  const quarterLength = Math.ceil(messages.length / 4);
+  const firstQuarter = messages.slice(0, quarterLength);
+  const secondQuarter = messages.slice(quarterLength, quarterLength * 2);
+  const thirdQuarter = messages.slice(quarterLength * 2, quarterLength * 3);
+  const fourthQuarter = messages.slice(quarterLength * 3);
+
+  useEffect(() => {
+    const countdownTo2025 = () => {
+      const now = new Date();
+      const targetDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 51, 0, 0);
+      const timeLeft = targetDate - now;
+  
+      console.log("Current Time (now):", now);
+      console.log("Target Time (targetDate):", targetDate);
+      console.log("Time Left (in milliseconds):", timeLeft);
+  
+      if (timeLeft <= 0) {
+        console.log("Time has passed, showing fireworks!");
+        try {
+          setShowFireworks(true);
+        } catch (error) {
+          console.error("Error when setting fireworks:", error);
+        }
+        clearInterval(timer);
+      }
+    };
+  
+    const timer = setInterval(countdownTo2025, 1000);
+    return () => clearInterval(timer);
+  }, []);
+  
+  
+  
+
   return (
     <div
-      className={`${geistSans.variable} ${geistMono.variable} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
+      style={{
+        height: "100vh",
+        backgroundColor: "#fff",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        overflow: "hidden",
+        color: "white",
+        textAlign: "center",
+        fontFamily: "Arial, sans-serif",
+      }}
     >
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              pages/index.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      {!showFireworks ? (
+        <>
+          {/* Ajout de marges entre les carrousels */}
+          <div style={{ marginBottom: "30px", overflow: "hidden" }}>
+            <MessageCarousel messages={firstQuarter} speed={15} direction="left" />
+          </div>
+          <div style={{ marginBottom: "30px",  overflow: "hidden" }}>
+            <MessageCarousel messages={secondQuarter} speed={25} direction="right" />
+          </div>
+          <div style={{ marginBottom: "30px",  overflow: "hidden" }}>
+            <MessageCarousel messages={thirdQuarter} speed={30} direction="left" />
+          </div>
+          <div style={{  overflow: "hidden" }}>
+            <MessageCarousel messages={fourthQuarter} speed={20} direction="right" />
+          </div>
+        </>
+      ) : (
+        <CelebrationAnimation />
+      )}
     </div>
   );
-}
+};
+
+export default Home;
