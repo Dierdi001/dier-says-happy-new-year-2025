@@ -86,7 +86,7 @@ const Home = () => {
       console.log("Time Left (in milliseconds):", timeLeft);
   
       if (timeLeft <= 0) {
-        console.log("Time has passed, showing fireworks!");
+        console.log("Time has passed, showing fireworks!"); 
         try {
           setShowFireworks(true);
         } catch (error) {
